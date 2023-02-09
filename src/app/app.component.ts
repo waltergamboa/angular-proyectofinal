@@ -1,10 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { Alumno } from './models/alumnos.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  title = 'angular-proyectofinal';
+export class AppComponent implements OnInit {
+  listaAlumnos: Alumno[] = [];
+  componenteVisible!: string;
+
+  ngOnInit(): void {
+    this.componenteVisible = 'inicio';
+  }
+
+  alumnos(sender: Alumno[]) {
+    this.listaAlumnos = sender;
+  }
+
+  btnMenu(sender: string){
+    this.componenteVisible = sender;
+  }
+
 }
