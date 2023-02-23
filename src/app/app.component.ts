@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   componenteVisible!: string;
 
   ngOnInit(): void {
-    this.componenteVisible = 'inicio';
+   // this.componenteVisible = 'inicio';
   }
 
   alumnos(sender: Alumno[]) {

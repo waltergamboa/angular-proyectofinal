@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
-import {MatBadgeModule} from '@angular/material/badge'
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatTableModule} from '@angular/material/table';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatBadgeModule } from '@angular/material/badge'
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -15,6 +18,6 @@ import { NgModule } from '@angular/core';
   imports: [
     CommonModule
   ],
-  exports: [MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatToolbarModule, MatTableModule, MatBadgeModule, MatDialogModule, MatDividerModule]
+  exports: [MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatToolbarModule, MatTableModule, MatBadgeModule, MatDialogModule, MatDividerModule, MatNativeDateModule, MatSlideToggleModule, MatDatepickerModule]
 })
 export class MaterialModule { }

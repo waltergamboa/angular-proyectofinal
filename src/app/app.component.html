@@ -9,7 +9,7 @@
       <app-navbar (byComponenteVisible)="btnMenu($event)"></app-navbar>
     </div>
     <div class="col-10">
-      <app-main [listaAlumnos]="listaAlumnos" (byAlumnos)="alumnos($event)" [componenteVisible]="componenteVisible"></app-main>
+      <router-outlet></router-outlet>
     </div>
   </div>
   <div class="row">
@@ -18,3 +18,4 @@
     </div>
   </div>
 </div>
+

@@ -1,19 +1,19 @@
-import { AlumnosAbmComponent } from './components/alumnos-abm/alumnos-abm.component';
-import { AlumnosListaComponent } from './components/alumnos-lista/alumnos-lista.component';
+import { AlumnosModule } from './alumnos/alumnos.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { Letras20Directive } from './directives/letras-20.directive';
-import { MainComponent } from './components/main/main.component';
+import { CursosModule } from './cursos/cursos.module';
+import { FooterComponent } from './core/components/footer/footer.component';
+import { InicioComponent } from './core/components/inicio/inicio.component';
+import { InscripcionesModule } from './inscripciones/inscripciones.module';
+import { MainComponent } from './core/components/main/main.component';
 import { MaterialModule } from './modules/material.module';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { NgModule } from '@angular/core';
+import { PipesModule } from './shared/pipes/pipes.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { AlumnosComponent } from './components/alumnos/alumnos.component';
-import { ApellidoNombrePipe } from './pipes/apellido-nombre.pipe';
-import { InicioComponent } from './components/inicio/inicio.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -21,19 +21,19 @@ import { FooterComponent } from './components/footer/footer.component';
     NavbarComponent,
     ToolbarComponent,
     MainComponent,
-    AlumnosListaComponent,
-    AlumnosAbmComponent,
-    Letras20Directive,
-    AlumnosComponent,
-    ApellidoNombrePipe,
     InicioComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    PipesModule,
+    AppRoutingModule,
+    AlumnosModule,
+    CursosModule,
+    InscripcionesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

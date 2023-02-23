@@ -1,0 +1,33 @@
+<div class="container mt-3">
+    <div class="row">
+        <form [formGroup]="formulario" (ngSubmit)="agregarAlumno()">
+            <mat-form-field class="col-md-6">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Apellido</mat-label>
+                <input matInput formControlName="apellido">
+            </mat-form-field>
+            <mat-form-field class="col-md-12">
+                <mat-label>Direccion</mat-label>
+                <input matInput formControlName="direccion">
+            </mat-form-field>
+            <mat-form-field class="col-md-12">
+                <mat-label>Correo</mat-label>
+                <input matInput formControlName="correo">
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Telefono Fijo</mat-label>
+                <input matInput formControlName="telefonoFijo">
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Telefono Celular</mat-label>
+                <input matInput formControlName="telefonoCelular">
+            </mat-form-field>
+            <div class="col-md-6 mt-3">
+                <button mat-raised-button color="primary" type="submit"  [disabled]="formulario.invalid">Guardar</button>
+                </div>
+        </form>
+    </div>
+</div>
