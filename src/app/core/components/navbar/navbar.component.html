@@ -1,42 +1,45 @@
-<div class="container fondo">
-    <div class="row">
-        <div class="col-12 mt-5"></div>
-    </div>
-    <div class="row">
-        <div class="col-12 mb-3">
-            <button mat-flat-button color="warn" class="boton" routerLink="inicio">Inicio</button>
+<ng-container *ngIf="sesion$ | async as sesion">
+    <div class="container fondo">
+        <div class="row">
+            <div class="col-12 mt-5"></div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12 mb-3">
-            <mat-divider></mat-divider>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <button mat-flat-button color="warn" class="boton" routerLink="inicio">Inicio</button>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12 mb-3">
-            <button mat-flat-button color="warn" class="boton" routerLink="alumnos/listar">Alumnos</button>
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <mat-divider></mat-divider>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12 mb-3">
-            <mat-divider></mat-divider>
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <button mat-flat-button color="warn" class="boton" routerLink="alumnos/listar">Alumnos</button>
+            </div>
         </div>
-    </div>
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col-12 mb-3">
-            <button mat-flat-button color="warn" class="boton" routerLink="cursos/listar">Cursos</button>
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <button mat-flat-button color="warn" class="boton" routerLink="cursos/listar">Cursos</button>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12 mb-3">
-            <mat-divider></mat-divider>
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <mat-divider></mat-divider>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12 mb-3">
-            <button mat-flat-button color="warn" class="boton" routerLink="inscripciones/listar"> Inscripciones </button>
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <button mat-flat-button color="warn" class="boton" routerLink="inscripciones/listar"> Inscripciones
+                </button>
+            </div>
         </div>
     </div>
-</div>
+</ng-container>

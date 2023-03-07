@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Alumno } from '../../../models/alumnos.model';
+import { Alumno } from '../../../models/alumno.model';
 import { AlumnosService } from '../../services/alumnos.service';
 import { Router } from '@angular/router';
 
@@ -32,16 +32,19 @@ export class AlumnoAgregarComponent implements OnInit {
   }
 
   agregarAlumno(): void {
-    let alumno = new Alumno(
-      this.formulario.value.nombre,
-      this.formulario.value.apellido,
-      this.formulario.value.direccion,
-      this.formulario.value.correo,
-      this.formulario.value.telefonoFijo,
-      this.formulario.value.telefonoCelular
-    )
-
-    this.alumnosService.agregarAlumno(alumno);
-    this.router.navigate(['alumnos/listar']);
+    let alumno: Alumno = {
+      nombre: this.formulario.value.nombre,
+      apellido: this.formulario.value.apellido,
+      direccion: this.formulario.value.direccion,
+      correo: this.formulario.value.correo,
+      telefonoFijo: this.formulario.value.telefonoFijo,
+      telefonoCelular: this.formulario.value.telefonoCelular
+    }
+    this.alumnosService.agregarAlumno(alumno).subscribe((alumno: Alumno) => {
+      alert(`${alumno.nombre} agregado satisfactoriamente`);
+      this.router.navigate(['alumnos/listar']);
+    });
+    //this.alumnosService.agregarAlumno(alumno);
+    //this.router.navigate(['alumnos/listar']);
   }
 }

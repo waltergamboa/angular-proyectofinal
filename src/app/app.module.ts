@@ -5,14 +5,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CursosModule } from './cursos/cursos.module';
 import { FooterComponent } from './core/components/footer/footer.component';
+import { HttpClientModule } from '@angular/common/http';
 import { InicioComponent } from './core/components/inicio/inicio.component';
 import { InscripcionesModule } from './inscripciones/inscripciones.module';
 import { MainComponent } from './core/components/main/main.component';
-import { MaterialModule } from './modules/material.module';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { NgModule } from '@angular/core';
-import { PipesModule } from './shared/pipes/pipes.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './shared/shared.module';
 import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
 
 @NgModule({
@@ -22,18 +21,17 @@ import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
     ToolbarComponent,
     MainComponent,
     InicioComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    PipesModule,
+    SharedModule,
     AppRoutingModule,
     AlumnosModule,
     CursosModule,
-    InscripcionesModule
+    InscripcionesModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

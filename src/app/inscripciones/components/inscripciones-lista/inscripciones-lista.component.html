@@ -11,13 +11,15 @@
                     <th mat-header-cell *matHeaderCellDef>Nombre</th>
                     <td mat-cell *matCellDef="let fila"> {{fila.nombre}} </td>
                 </ng-container>
-                <ng-container matColumnDef="acciones">
+                <ng-container matColumnDef="acciones" *ngIf="sesion$ | async as sesion">
                     <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                    <td mat-cell *matCellDef="let fila"> 
-                        <button mat-icon-button color="primary" >
+                    <td mat-cell *matCellDef="let fila">
+                        <button *ngIf="sesion.usuarioActivo?.esAdmin" mat-icon-button color="primary"
+                            (click)="redirigirEditar(fila)">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button color="warn"  >
+                        <button *ngIf="sesion.usuarioActivo?.esAdmin" mat-icon-button color="warn"
+                            (click)="eliminarInscripcion(fila)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>
@@ -29,7 +31,7 @@
     </div>
     <div class="row mt-3">
         <div class="col-12">
-            <button mat-flat-button color="primary" >Agregar</button>
+            <button mat-flat-button color="primary" (click)="redirigirAgregar()">Agregar</button>
         </div>
     </div>
 </div>

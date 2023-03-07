@@ -1,53 +1,66 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 
-import { Curso } from '../../models/cursos.model';
+import { Curso } from '../../models/curso.model';
 import { Injectable } from '@angular/core';
+import { env } from 'src/environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CursosService {
-  private cursos: Curso[] = [
-    new Curso('nombre1', 4300, true, new Date(), new Date()),
-    new Curso('nombre2', 4400, true, new Date(), new Date()),
-    new Curso('nombre3', 4500, false, new Date(), new Date()),
-  ];
-
-  private cursos$: BehaviorSubject<Curso[]>;
-
-  constructor() {
-    this.cursos$ = new BehaviorSubject<Curso[]>(this.cursos);
-    this.cursos$.next(this.cursos);
-  }
+  constructor(private http: HttpClient) {}
 
   obtenerCursos(): Observable<Curso[]> {
-    return this.cursos$.asObservable();
+    return this.http
+      .get<Curso[]>(`${env.apiURL}/cursos`, {
+        headers: new HttpHeaders({
+          'content-type': 'application/json',
+          encoding: 'UTF-8',
+        }),
+      })
+      .pipe(catchError(this.capturarError));
   }
 
-  agregarCurso(curso: Curso): void {
-    this.cursos.push(curso);
-    this.cursos$.next(this.cursos);
+  agregarCurso(curso: Curso): Observable<Curso> {
+    return this.http
+      .post<Curso>(`${env.apiURL}/cursos`, curso, {
+        headers: new HttpHeaders({
+          encoding: 'UTF-8',
+        }),
+      })
+      .pipe(catchError(this.capturarError));
   }
 
-  editarCurso(curso: Curso): void {
-    let indice: number = this.cursos.findIndex(
-      (c: Curso) => c.comision === curso.comision
-    );
+  editarCurso(curso: Curso): Observable<Curso> {
+    return this.http
+      .put<Curso>(`${env.apiURL}/cursos/${curso.id}`, curso, {
+        headers: new HttpHeaders({
+          encoding: 'UTF-8',
+        }),
+      })
+      .pipe(catchError(this.capturarError));
+  }
 
-    if (indice > -1) {
-      this.cursos[indice] = curso;
-      this.cursos$.next(this.cursos);
+  eliminarCurso(curso: Curso): Observable<Curso> {
+    return this.http
+      .delete<Curso>(`${env.apiURL}/cursos/${curso.id}`, {
+        headers: new HttpHeaders({}),
+      })
+      .pipe(catchError(this.capturarError));
+  }
+
+  private capturarError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      alert(`Hubo un error del lado del cliente: ${error.message}`);
+    } else {
+      alert(`Hubo un error del lado del servidor: ${error.message}`);
     }
-  }
 
-  eliminarCurso(curso: Curso): void {
-    let indice: number = this.cursos.findIndex(
-      (c: Curso) => c.comision === curso.comision
-    );
-
-    if (indice > -1) {
-      this.cursos.splice(indice, 1);
-      this.cursos$.next(this.cursos);
-    }
+    return throwError(() => new Error('Error en el procesamiento de cursos'));
   }
 }

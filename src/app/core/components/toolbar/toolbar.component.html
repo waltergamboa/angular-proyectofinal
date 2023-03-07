@@ -1,11 +1,15 @@
 <div class="container-fluid m-0 p-0 fondo">
     <div class="row">
         <div class="col-12">
+            <ng-container *ngIf="sesion$ | async as sesion">
             <mat-toolbar color="primary">
                 <span appLetras20>Instituto Modelo</span>
                 <span class="example-spacer"></span>
-                <mat-icon matBadge={{alumnosInscriptos}} matBadgeColor="warn">people</mat-icon>
+                <a mat-button *ngIf="!sesion.sesionActiva"  routerLink="auth/login">Login</a>
+                <a mat-button *ngIf="sesion.sesionActiva" (click)="logout()">Logout</a>
+                <!-- <mat-icon matBadge={{alumnosInscriptos}} matBadgeColor="warn">people</mat-icon> -->
             </mat-toolbar>
+        </ng-container>
         </div>
     </div>
 </div>

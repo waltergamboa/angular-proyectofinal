@@ -1,21 +1,25 @@
+import { AlumnosService } from '../alumnos/services/alumnos.service';
 import { CommonModule } from '@angular/common';
+import { InscripcionAgregarComponent } from './components/inscripcion-agregar/inscripcion-agregar.component';
+import { InscripcionEditarComponent } from './components/inscripcion-editar/inscripcion-editar.component';
 import { InscripcionesListaComponent } from './components/inscripciones-lista/inscripciones-lista.component';
 import { InscripcionesRoutingModule } from './inscripciones-routing.module';
-import { MaterialModule } from '../modules/material.module';
 import { NgModule } from '@angular/core';
-import { PipesModule } from '../shared/pipes/pipes.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
-    InscripcionesListaComponent
+    InscripcionesListaComponent,
+    InscripcionAgregarComponent,
+    InscripcionEditarComponent
   ],
   imports: [
     CommonModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    PipesModule,
-    InscripcionesRoutingModule
+    SharedModule,
+    InscripcionesRoutingModule,
+  ],
+  providers: [
+    AlumnosService
   ]
 })
 export class InscripcionesModule { }

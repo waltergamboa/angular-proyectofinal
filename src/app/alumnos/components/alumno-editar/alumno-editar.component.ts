@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Alumno } from 'src/app/models/alumnos.model';
+import { Alumno } from 'src/app/models/alumno.model';
 import { AlumnosService } from '../../services/alumnos.service';
 
 @Component({
@@ -23,28 +23,32 @@ export class AlumnoEditarComponent implements OnInit {
     
     this.activatedRoute.paramMap.subscribe((parametros)=>{
       this.formulario = new FormGroup({
-        nombre: new FormControl(parametros.get('_nombre'), [Validators.required]),
-        apellido: new FormControl(parametros.get('_apellido'), [Validators.required]),
-        direccion: new FormControl(parametros.get('_direccion'), [Validators.required]),
-        correo: new FormControl(parametros.get('_correo'), [Validators.required, Validators.email,
-          Validators.pattern(regexCorreo)]),
-        telefonoFijo: new FormControl(parametros.get('_telefonoFijo'), [Validators.required]),
-        telefonoCelular: new FormControl(parametros.get('_telefonoCelular'), [Validators.required]),
+        id: new FormControl(parametros.get('id')),
+        nombre: new FormControl(parametros.get('nombre'), [Validators.required]),
+        apellido: new FormControl(parametros.get('apellido'), [Validators.required]),
+        direccion: new FormControl(parametros.get('direccion'), [Validators.required]),
+        correo: new FormControl(parametros.get('correo'), [Validators.required, Validators.email,
+        Validators.pattern(regexCorreo)]),
+        telefonoFijo: new FormControl(parametros.get('telefonoFijo'), [Validators.required]),
+        telefonoCelular: new FormControl(parametros.get('telefonoCelular'), [Validators.required]),
       })
     })
   }
 
   editarAlumno(): void {
-    let alumno = new Alumno(
-      this.formulario.value.nombre,
-      this.formulario.value.apellido,
-      this.formulario.value.direccion,
-      this.formulario.value.correo,
-      this.formulario.value.telefonoFijo,
-      this.formulario.value.telefonoCelular
-    )
+    let alumno: Alumno = {
+      id: this.formulario.value.id,
+      nombre: this.formulario.value.nombre,
+      apellido: this.formulario.value.apellido,
+      direccion: this.formulario.value.direccion,
+      correo: this.formulario.value.correo,
+      telefonoFijo: this.formulario.value.telefonoFijo,
+      telefonoCelular: this.formulario.value.telefonoCelular
+    }
 
-    this.alumnosService.editarAlumno(alumno);
-    this.router.navigate(['alumnos/listar']);    
+    this.alumnosService.editarAlumno(alumno).subscribe((alumno: Alumno) => {
+      alert(`${alumno.nombre} editadoa satisfactoriamente`);
+      this.router.navigate(['alumnos/listar']);
+    });
   }
 }

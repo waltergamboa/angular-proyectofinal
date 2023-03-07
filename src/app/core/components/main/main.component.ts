@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Alumno } from 'src/app/models/alumnos.model';
+import { Alumno } from 'src/app/models/alumno.model';
 
 @Component({
   selector: 'app-main',

@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
-import { Curso } from '../../../models/cursos.model';
+import { Curso } from '../../../models/curso.model';
 import { CursosService } from '../../services/cursos.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Sesion } from 'src/app/models/sesion.model';
+import { SesionService } from 'src/app/core/services/sesion.service';
 import swal from 'sweetalert2';
 
 @Component({
@@ -13,6 +15,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./cursos-lista.component.css'],
 })
 export class CursosListaComponent implements OnInit, OnDestroy {
+  sesion$!: Observable<Sesion>;
   suscripcion!: Subscription;
   dataSource!: MatTableDataSource<Curso>;
   columnas: string[] = [
@@ -24,7 +27,7 @@ export class CursosListaComponent implements OnInit, OnDestroy {
     'acciones',
   ];
 
-  constructor(private cursosService: CursosService, private router: Router) {}
+  constructor(private cursosService: CursosService, private router: Router, private sesion: SesionService) {}
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
@@ -37,6 +40,7 @@ export class CursosListaComponent implements OnInit, OnDestroy {
       .subscribe((cursos: Curso[]) => {
         this.dataSource.data = cursos;
       });
+      this.sesion$ = this.sesion.obtenerSesion();            
   }
 
   redirigirAgregar() {

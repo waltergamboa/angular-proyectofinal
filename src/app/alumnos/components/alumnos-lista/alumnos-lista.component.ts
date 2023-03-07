@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
-import { Alumno } from '../../../models/alumnos.model';
+import { Alumno } from '../../../models/alumno.model';
 import { AlumnosService } from '../../services/alumnos.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Sesion } from 'src/app/models/sesion.model';
+import { SesionService } from 'src/app/core/services/sesion.service';
 import swal from 'sweetalert2';
 
 @Component({
@@ -13,6 +15,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./alumnos-lista.component.css'],
 })
 export class AlumnosListaComponent implements OnInit, OnDestroy {
+  sesion$!: Observable<Sesion>;
   suscripcion!: Subscription;
   dataSource!: MatTableDataSource<Alumno>;
   columnas: string[] = [
@@ -24,7 +27,7 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
     'acciones',
   ];
 
-  constructor(private alumnosService: AlumnosService, private router: Router) {}
+  constructor(private alumnosService: AlumnosService, private router: Router, private sesion: SesionService) {}
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
@@ -37,6 +40,7 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
       .subscribe((alumnos: Alumno[]) => {
         this.dataSource.data = alumnos;
       });
+      this.sesion$ = this.sesion.obtenerSesion();      
   }
 
   redirigirAgregar() {
@@ -59,7 +63,11 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
       })
       .then((result) => {
         if (result.value) {
-          this.alumnosService.eliminarAlumno(alumno);
+          this.alumnosService.eliminarAlumno(alumno).subscribe((alumno: Alumno)=>{
+            this.alumnosService.obtenerAlumnos().subscribe((alumnos: Alumno[]) => {
+              this.dataSource.data = alumnos;
+            });
+          })
           swal.fire('Eliminado!', 'Se borro el registro!', 'success');
         } else if (result.dismiss === swal.DismissReason.cancel) {
           swal.fire('Cancelado', 'Se mantiene el registro!', 'error');

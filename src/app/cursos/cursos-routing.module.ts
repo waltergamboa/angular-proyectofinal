@@ -6,7 +6,7 @@ import { CursosListaComponent } from './components/cursos-lista/cursos-lista.com
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-  {path: 'cursos', children: [
+  {path: '', children: [
     {path: 'listar', component: CursosListaComponent},
     {path: 'agregar', component: CursoAgregarComponent},
     {path: 'editar', component: CursoEditarComponent}
