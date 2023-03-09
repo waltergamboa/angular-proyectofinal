@@ -8,6 +8,8 @@ import { Alumno } from './models/alumno.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  title: string = "angular-proyectofinal";
+  
   listaAlumnos: Alumno[] = [];
   componenteVisible!: string;
 
