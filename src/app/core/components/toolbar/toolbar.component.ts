@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Alumno } from '../../../models/alumno.model';
+import { AuthState } from '../../../autenticacion/state/auth.reducer';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Sesion } from 'src/app/models/sesion.model';
 import { SesionService } from '../../services/sesion.service';
+import { Store } from '@ngrx/store';
+import { cerrarSesion } from '../../../autenticacion/state/auth.actions';
+import { selectSesionState } from '../../../autenticacion/state/auth.selectors';
 
 @Component({
   selector: 'app-toolbar',
@@ -15,20 +18,12 @@ export class ToolbarComponent implements OnInit {
   @Input() alumnosInscriptos?: string;
   sesion$!: Observable<Sesion>;
 
-  constructor(private router: Router,
-    private sesion: SesionService){
+  constructor(private authStore : Store<AuthState>){
   }
 
   ngOnInit(): void {
-    this.sesion$ = this.sesion.obtenerSesion();
+    this.sesion$ = this.authStore.select(selectSesionState)
   }  
 
-  logout(){
-    let sesionLogout: Sesion = {
-      sesionActiva: false
-    }
-
-    this.sesion.logout(sesionLogout);
-    this.router.navigate(['auth/login']);
-  }
+ 
 }

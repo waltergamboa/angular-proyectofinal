@@ -5,9 +5,7 @@
             <mat-toolbar color="primary">
                 <span appLetras20>Instituto Modelo</span>
                 <span class="example-spacer"></span>
-                <a mat-button *ngIf="!sesion.sesionActiva"  routerLink="auth/login">Login</a>
-                <a mat-button *ngIf="sesion.sesionActiva" (click)="logout()">Logout</a>
-                <!-- <mat-icon matBadge={{alumnosInscriptos}} matBadgeColor="warn">people</mat-icon> -->
+                <span *ngIf="sesion.sesionActiva">Bienvenido {{sesion.usuarioActivo?.usuario | uppercase}}</span>
             </mat-toolbar>
         </ng-container>
         </div>

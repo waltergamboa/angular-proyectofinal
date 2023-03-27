@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () => import("./inscripciones/inscripciones.module").then((modulo) => modulo.InscripcionesModule),
     canLoad: [SesionGuard]
   },    
+  {
+    path: 'usuarios',
+    loadChildren: () => import("./usuarios/usuarios.module").then((modulo) => modulo.UsuariosModule),
+    canLoad: [SesionGuard]
+  },    
    {
      path: 'auth',
      loadChildren: () => import("./autenticacion/autenticacion.module").then((modulo) => modulo.AutenticacionModule)

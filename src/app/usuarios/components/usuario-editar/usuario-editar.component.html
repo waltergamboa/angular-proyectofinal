@@ -1,0 +1,34 @@
+<div class="container mt-3">
+    <div class="row">
+        <form [formGroup]="formulario" (ngSubmit)="editarusuario()">
+            <mat-form-field class="col-md-6">
+                <mat-label>Usuario</mat-label>
+                <input matInput formControlName="usuario">
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Contraseña</mat-label>
+                <input matInput formControlName="contrasena">
+            </mat-form-field>
+            <mat-form-field class="col-md-12">
+                <mat-label>Es Admin</mat-label>
+                <input matInput formControlName="esAdmin">
+            </mat-form-field>
+            <mat-form-field class="col-md-12">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Direccion</mat-label>
+                <input matInput formControlName="direccion">
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Telefono</mat-label>
+                <input matInput formControlName="telefono">
+            </mat-form-field>
+            <div class="col-md-6 mt-3">
+                <button mat-raised-button color="primary" type="submit"  [disabled]="formulario.invalid">Guardar</button>
+                </div>
+        </form>
+    </div>
+</div>
+

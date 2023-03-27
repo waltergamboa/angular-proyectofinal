@@ -1,12 +1,19 @@
 import { Observable, Subscription } from 'rxjs';
+import { cargarInscripcionState, inscripcionesCargadas } from '../../state/inscripcion-state.actions';
+import { selectCargandoInscripciones, selectInscripcionesCargadas } from '../../state/inscripcion-state.selectors';
 
+import { AuthState } from '../../../autenticacion/state/auth.reducer';
 import { Component } from '@angular/core';
 import { Inscripcion } from '../../../models/inscripciones.model';
+import { InscripcionState } from '../../state/inscripcion-state.reducer';
 import { InscripcionesService } from '../../services/inscripciones.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Sesion } from '../../../models/sesion.model';
 import { SesionService } from '../../../core/services/sesion.service';
+import { Store } from '@ngrx/store';
+import { selectSesionState } from '../../../autenticacion/state/auth.selectors';
 import swal from 'sweetalert2';
 
 @Component({
@@ -17,14 +24,21 @@ import swal from 'sweetalert2';
 export class InscripcionesListaComponent {
   sesion$!: Observable<Sesion>;
   suscripcion!: Subscription;
+  cargando$!: Observable<Boolean>;
   dataSource!: MatTableDataSource<Inscripcion>;
   columnas: string[] = [
-    'nombre',
+    'alumno',
+    'curso',
+    'usuario',
+    'fecha',
     'acciones'
   ];
 
   constructor(private inscripcionesService: InscripcionesService,
-    private router: Router, private sesion: SesionService) {}
+    private router: Router, private sesion: SesionService,
+    private authStore: Store<AuthState>,
+    private store: Store<InscripcionState>,
+    private snackBar: MatSnackBar) {}
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
@@ -32,12 +46,32 @@ export class InscripcionesListaComponent {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Inscripcion>();
-    this.suscripcion = this.inscripcionesService
-      .obtenerInscripciones()
-      .subscribe((inscripciones: Inscripcion[]) => {
-        this.dataSource.data = inscripciones;
+
+    this.cargando$ = this.store.select(selectCargandoInscripciones);
+    this.store.dispatch(cargarInscripcionState());
+
+    this.inscripcionesService.obtenerInscripciones().subscribe((inscripciones: Inscripcion[])=>{
+      this.store.dispatch(inscripcionesCargadas({ inscripciones: inscripciones}));
+    });
+
+
+    // this.suscripcion = this.inscripcionesService
+    //   .obtenerInscripciones()
+    //   .subscribe((inscripciones: Inscripcion[]) => {
+    //     this.dataSource.data = inscripciones;
+    //   });
+
+    this.suscripcion = this.store.select(selectInscripcionesCargadas).subscribe((inscripciones: Inscripcion[])=>{
+      this.dataSource.data = inscripciones;
+    });
+
+      this.sesion$ = this.authStore.select(selectSesionState); //this.sesion.obtenerSesion();  
+      
+      this.snackBar.open('Inscripciones Cargadas','', {
+        duration: 2000
       });
-      this.sesion$ = this.sesion.obtenerSesion();      
+
+
   }
 
   redirigirAgregar() {

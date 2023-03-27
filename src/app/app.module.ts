@@ -1,37 +1,36 @@
+import { NgModule, isDevMode } from '@angular/core';
+
 import { AlumnosModule } from './alumnos/alumnos.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AutenticacionModule } from './autenticacion/autenticacion.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import { CoreModule } from './core/core.module';
 import { CursosModule } from './cursos/cursos.module';
-import { FooterComponent } from './core/components/footer/footer.component';
-import { HttpClientModule } from '@angular/common/http';
-import { InicioComponent } from './core/components/inicio/inicio.component';
 import { InscripcionesModule } from './inscripciones/inscripciones.module';
-import { MainComponent } from './core/components/main/main.component';
-import { NavbarComponent } from './core/components/navbar/navbar.component';
-import { NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
-import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent,
-    ToolbarComponent,
-    MainComponent,
-    InicioComponent,
-    FooterComponent
+    AppComponent
   ],
   imports: [
+    AutenticacionModule,
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    CoreModule,
     AppRoutingModule,
     AlumnosModule,
     CursosModule,
     InscripcionesModule,
-    HttpClientModule
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

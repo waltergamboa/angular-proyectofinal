@@ -1,4 +1,9 @@
 export interface Inscripcion{
   id?: string;
-  nombre: string;
+  usuario: string;
+  fecha: Date;
+  alumnoId: string;
+  alumno: string;
+  cursoId: string
+  curso: string;
 }

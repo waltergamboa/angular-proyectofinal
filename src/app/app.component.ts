@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Alumno } from './models/alumno.model';
+import { AuthState } from './autenticacion/state/auth.reducer';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Sesion } from './models/sesion.model';
+import { Store } from '@ngrx/store';
+import { selectSesionState } from './autenticacion/state/auth.selectors';
 
 @Component({
   selector: 'app-root',
@@ -9,20 +14,27 @@ import { Alumno } from './models/alumno.model';
 })
 export class AppComponent implements OnInit {
   title: string = "angular-proyectofinal";
-  
-  listaAlumnos: Alumno[] = [];
-  componenteVisible!: string;
+  sesion$!: Observable<Sesion>;
+
+  constructor(private router: Router,
+    private authStore: Store<AuthState>){
+  }
 
   ngOnInit(): void {
-   // this.componenteVisible = 'inicio';
+    this.sesion$ = this.authStore.select(selectSesionState)
+    this.router.navigate(['inicio'])
   }
 
-  alumnos(sender: Alumno[]) {
-    this.listaAlumnos = sender;
+  redirigirInicio(){
+    this.router.navigate(['inicio'])
   }
 
-  btnMenu(sender: string){
-    this.componenteVisible = sender;
-  }
+  logout(){
+    let sesionLogout: Sesion = {
+      sesionActiva: false
+    }
 
+    //this.sesion.logout(sesionLogout);
+    this.router.navigate(['auth/login']);
+  }
 }

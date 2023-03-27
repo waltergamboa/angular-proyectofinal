@@ -1,16 +1,20 @@
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Observable, map } from 'rxjs';
 
+import { AuthState } from 'src/app/autenticacion/state/auth.reducer';
 import { Injectable } from '@angular/core';
 import { Sesion } from 'src/app/models/sesion.model';
 import { SesionService } from '../services/sesion.service';
+import { Store } from '@ngrx/store';
+import { selectAuthState } from '../../autenticacion/state/auth.selectors';
+import { selectSesionState } from './../../autenticacion/state/auth.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SesionGuard implements CanActivate, CanActivateChild, CanLoad {
  
-  constructor(private sesion: SesionService,
+  constructor(private authStore: Store<AuthState>,
     private router: Router){
     
   }
@@ -18,7 +22,7 @@ export class SesionGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.sesion.obtenerSesion().pipe(
+    return this.authStore.select(selectSesionState).pipe(
       map((sesion: Sesion)=>{
         if(sesion.sesionActiva){
           return true;
@@ -32,7 +36,7 @@ export class SesionGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      return this.sesion.obtenerSesion().pipe(
+      return this.authStore.select(selectSesionState).pipe(
         map((sesion: Sesion)=>{
           if(sesion.sesionActiva){
             return true;
@@ -46,7 +50,7 @@ export class SesionGuard implements CanActivate, CanActivateChild, CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      return this.sesion.obtenerSesion().pipe(
+      return this.authStore.select(selectSesionState).pipe(
         map((sesion: Sesion)=>{
           if(sesion.sesionActiva){
             return true;

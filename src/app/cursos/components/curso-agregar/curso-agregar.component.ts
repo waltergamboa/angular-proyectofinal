@@ -2,11 +2,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Component } from '@angular/core';
 import { Curso } from 'src/app/models/curso.model';
-import { CursosService } from '../../services/cursos.service';
+import { CursoState } from '../../state/curso-state.reducer';
 import { Observable } from 'rxjs';
 import { Profesor } from '../../../models/profesor.model';
 import { ProfesorService } from '../../../core/services/profesor.service';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { agregarCursoState } from '../../state/curso-state.actions';
 
 @Component({
   selector: 'app-curso-agregar',
@@ -18,13 +19,12 @@ export class CursoAgregarComponent {
   profesores$!: Observable<Profesor[]>;
 
   constructor(
-    private cursosService: CursosService,
-    private router: Router,
-    private profesorService: ProfesorService
+    private profesoresService: ProfesorService,
+    private store: Store<CursoState>
   ) {}
 
   ngOnInit(): void {
-    this.profesores$ = this.profesorService.obtenerProfesores();
+    this.profesores$ = this.profesoresService.obtenerProfesores();
 
     this.formulario = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
@@ -38,7 +38,7 @@ export class CursoAgregarComponent {
 
   agregarCurso(): void {
     let curso: Curso = {
-      id: '1',
+      id: '',
       nombre: this.formulario.value.nombre,
       comision: this.formulario.value.comision,
       inscripcionAbierta: this.formulario.value.inscripcionAbierta,
@@ -46,9 +46,7 @@ export class CursoAgregarComponent {
       fechaFin: this.formulario.value.fechaFin,
       profesor: this.formulario.value.profesor,
     };
-    console.log(curso);
-    this.cursosService.agregarCurso(curso).subscribe((curso: Curso) => {
-      this.router.navigate(['cursos/listar']);
-    });
+
+    this.store.dispatch(agregarCursoState({ curso: curso }));
   }
 }

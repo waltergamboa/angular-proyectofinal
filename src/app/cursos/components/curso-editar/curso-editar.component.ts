@@ -1,12 +1,14 @@
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Pipe } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, find } from 'rxjs';
 
-import { Component } from '@angular/core';
 import { Curso } from 'src/app/models/curso.model';
-import { CursosService } from '../../services/cursos.service';
-import { Observable } from 'rxjs';
+import { CursoState } from '../../state/curso-state.reducer';
 import { Profesor } from 'src/app/models/profesor.model';
 import { ProfesorService } from '../../../core/services/profesor.service';
+import { Store } from '@ngrx/store';
+import { editarCursoState } from '../../state/curso-state.actions';
 
 @Component({
   selector: 'app-curso-editar',
@@ -16,26 +18,41 @@ import { ProfesorService } from '../../../core/services/profesor.service';
 export class CursoEditarComponent {
   formulario!: FormGroup;
   profesores$!: Observable<Profesor[]>;
+  selected!: string;
+  profesores: Profesor[] = [];
+  profesor!: Profesor;
 
-  constructor(private activatedRoute: ActivatedRoute, private cursosService: CursosService, private router: Router, private profesorService: ProfesorService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private profesoresService: ProfesorService,
+    private store: Store<CursoState>) {}
 
   ngOnInit(): void {
-    this.profesores$ = this.profesorService.obtenerProfesores();
-    
+    this.profesores$ = this.profesoresService.obtenerProfesores();
+
+    this.profesoresService.obtenerProfesores().subscribe((datos: Profesor[])=>this.profesores = datos);
+
     this.activatedRoute.paramMap.subscribe((parametros)=>{
+      let curso = JSON.parse(parametros.getAll('curso')[0]);
+      this.selected = curso.profesor.id;
+
       this.formulario = new FormGroup({
-        id: new FormControl(parametros.get('id')),
-        nombre: new FormControl(parametros.get('nombre'), [Validators.required]),
-        comision: new FormControl(parametros.get('comision'), [Validators.required]),
-        fechaFin: new FormControl(new Date(parametros.get('fechaFin') || ''), [Validators.required]),
-        fechaInicio: new FormControl(new Date(parametros.get('fechaInicio') || ''), [Validators.required]),
-        inscripcionAbierta: new FormControl(parametros.get('inscripcionAbierta')),
-        profesor: new FormControl(parametros.get('profesor'), [Validators.required])
+        id: new FormControl(curso.id),
+        nombre: new FormControl(curso.nombre, [Validators.required]),
+        comision: new FormControl(curso.comision, [Validators.required]),
+        fechaFin: new FormControl(new Date(curso.fechaFin || ''), [Validators.required]),
+        fechaInicio: new FormControl(new Date(curso.fechaInicio || ''), [Validators.required]),
+        inscripcionAbierta: new FormControl(curso.inscripcionAbierta),
+        profesor: new FormControl(curso.profesor, [Validators.required])
       });
     })
+    
+    this.formulario.get('profesor')!.setValue(this.selected);
   }
 
   editarCurso(): void {
+    this.profesor = this.profesores.find((profesor) => String(profesor.id) === String(this.formulario.value.profesor))!;
+    
     let curso: Curso = {
       id: this.formulario.value.id,
       nombre: this.formulario.value.nombre,
@@ -43,11 +60,9 @@ export class CursoEditarComponent {
       inscripcionAbierta: this.formulario.value.inscripcionAbierta,
       fechaInicio: this.formulario.value.fechaInicio,
       fechaFin: this.formulario.value.fechaFin,
-      profesor: this.formulario.value.profesor
+      profesor: this.profesor
     };
 
-
-    this.cursosService.editarCurso(curso);
-    this.router.navigate(['cursos/listar']);
+    this.store.dispatch(editarCursoState({ curso: curso }));
   }
 }

@@ -41,5 +41,37 @@
                 </button>
             </div>
         </div>
+        <div class="row" *ngIf="sesion.sesionActiva && sesion.usuarioActivo?.esAdmin">
+            <div class="col-12 mb-3">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="sesion.sesionActiva && sesion.usuarioActivo?.esAdmin">
+            <div class="col-12 mb-3">
+                <button mat-flat-button color="warn" class="boton" routerLink="usuarios/listar"> Usuarios
+                </button>
+            </div>
+        </div>
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="!sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <button mat-flat-button color="primary" class="boton" routerLink="auth/login"> Login
+                </button>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="sesion.sesionActiva">
+            <div class="col-12 mb-3">
+                <button mat-flat-button color="primary" class="boton" (click)="logout()"> Logout
+                </button>
+            </div>
+        </div>
+
     </div>
 </ng-container>
