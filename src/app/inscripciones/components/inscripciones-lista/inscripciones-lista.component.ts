@@ -1,6 +1,12 @@
 import { Observable, Subscription } from 'rxjs';
-import { cargarInscripcionState, inscripcionesCargadas } from '../../state/inscripcion-state.actions';
-import { selectCargandoInscripciones, selectInscripcionesCargadas } from '../../state/inscripcion-state.selectors';
+import {
+  cargarInscripcionState,
+  eliminarInscripcionState,
+} from '../../state/inscripcion-state.actions';
+import {
+  selectCargandoInscripciones,
+  selectInscripcionesCargadas,
+} from '../../state/inscripcion-state.selectors';
 
 import { AuthState } from '../../../autenticacion/state/auth.reducer';
 import { Component } from '@angular/core';
@@ -19,26 +25,21 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-inscripciones-lista',
   templateUrl: './inscripciones-lista.component.html',
-  styleUrls: ['./inscripciones-lista.component.css']
+  styleUrls: ['./inscripciones-lista.component.css'],
 })
 export class InscripcionesListaComponent {
   sesion$!: Observable<Sesion>;
   suscripcion!: Subscription;
   cargando$!: Observable<Boolean>;
   dataSource!: MatTableDataSource<Inscripcion>;
-  columnas: string[] = [
-    'alumno',
-    'curso',
-    'usuario',
-    'fecha',
-    'acciones'
-  ];
+  columnas: string[] = ['alumno', 'curso', 'usuario', 'fecha', 'acciones'];
 
-  constructor(private inscripcionesService: InscripcionesService,
-    private router: Router, private sesion: SesionService,
+  constructor(
+    private router: Router,
     private authStore: Store<AuthState>,
     private store: Store<InscripcionState>,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
@@ -50,28 +51,17 @@ export class InscripcionesListaComponent {
     this.cargando$ = this.store.select(selectCargandoInscripciones);
     this.store.dispatch(cargarInscripcionState());
 
-    this.inscripcionesService.obtenerInscripciones().subscribe((inscripciones: Inscripcion[])=>{
-      this.store.dispatch(inscripcionesCargadas({ inscripciones: inscripciones}));
-    });
-
-
-    // this.suscripcion = this.inscripcionesService
-    //   .obtenerInscripciones()
-    //   .subscribe((inscripciones: Inscripcion[]) => {
-    //     this.dataSource.data = inscripciones;
-    //   });
-
-    this.suscripcion = this.store.select(selectInscripcionesCargadas).subscribe((inscripciones: Inscripcion[])=>{
-      this.dataSource.data = inscripciones;
-    });
-
-      this.sesion$ = this.authStore.select(selectSesionState); //this.sesion.obtenerSesion();  
-      
-      this.snackBar.open('Inscripciones Cargadas','', {
-        duration: 2000
+    this.suscripcion = this.store
+      .select(selectInscripcionesCargadas)
+      .subscribe((inscripciones: Inscripcion[]) => {
+        this.dataSource.data = inscripciones;
       });
 
+    this.sesion$ = this.authStore.select(selectSesionState); //this.sesion.obtenerSesion();
 
+    this.snackBar.open('Inscripciones Cargadas', '', {
+      duration: 2000,
+    });
   }
 
   redirigirAgregar() {
@@ -94,15 +84,11 @@ export class InscripcionesListaComponent {
       })
       .then((result) => {
         if (result.value) {
-          this.inscripcionesService.eliminarInscripcion(inscripcion).subscribe((inscripcion: Inscripcion)=>{
-            this.inscripcionesService.obtenerInscripciones().subscribe((inscripciones: Inscripcion[]) => {
-              this.dataSource.data = inscripciones;
-            });
-          })
+          this.store.dispatch(eliminarInscripcionState({ inscripcion }));
           swal.fire('Eliminado!', 'Se borro el registro!', 'success');
         } else if (result.dismiss === swal.DismissReason.cancel) {
           swal.fire('Cancelado', 'Se mantiene el registro!', 'error');
         }
       });
-  }  
+  }
 }

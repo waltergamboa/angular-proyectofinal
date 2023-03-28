@@ -1,7 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { cargarUsuarioState, usuariosCargados } from '../../state/usuario-state.actions';
-import { selectCargandoUsuarios, selectusuariosCargados } from '../../state/usuario-state.selectors';
+import {
+  cargarUsuarioState,
+  eliminarUsuarioState,
+} from '../../state/usuario-state.actions';
+import {
+  selectCargandoUsuarios,
+  selectusuariosCargados,
+} from '../../state/usuario-state.selectors';
 
 import { AuthState } from '../../../autenticacion/state/auth.reducer';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -33,13 +39,15 @@ export class UsuariosListaComponent implements OnInit, OnDestroy {
     'nombre',
     'direccion',
     'telefono',
-    'acciones'
+    'acciones',
   ];
 
-  constructor(private usuariosService: UsuariosService, private router: Router, private sesion: SesionService,
+  constructor(
+    private router: Router,
     private store: Store<UsuarioState>,
     private authStore: Store<AuthState>,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
@@ -49,30 +57,20 @@ export class UsuariosListaComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource<Usuario>();
 
     this.cargando$ = this.store.select(selectCargandoUsuarios);
-    
-    this.store.dispatch(cargarUsuarioState());
-  
-    this.usuariosService.obtenerusuarios().subscribe((usuarios: Usuario[])=>{
-      this.store.dispatch(usuariosCargados({ usuarios: usuarios}));
-    });
 
-    // this.suscripcion = this.usuariosService
-    //   .obtenerusuarios()
-    //   .subscribe((usuarios: usuario[]) => {
-    //     this.dataSource.data = usuarios;
-    //   });
-      
-      this.suscripcion = this.store.select(selectusuariosCargados).subscribe((usuarios: Usuario[])=>{
+    this.store.dispatch(cargarUsuarioState());
+
+    this.suscripcion = this.store
+      .select(selectusuariosCargados)
+      .subscribe((usuarios: Usuario[]) => {
         this.dataSource.data = usuarios;
       });
 
-      this.sesion$ = this.authStore.select(selectSesionState); //this.sesion.obtenerSesion();  
-      
-      this.snackBar.open('usuarios Cargados','', {
-        duration: 2000
-      });
+    this.sesion$ = this.authStore.select(selectSesionState); //this.sesion.obtenerSesion();
 
-
+    this.snackBar.open('usuarios Cargados', '', {
+      duration: 2000,
+    });
   }
 
   redirigirAgregar() {
@@ -95,11 +93,7 @@ export class UsuariosListaComponent implements OnInit, OnDestroy {
       })
       .then((result) => {
         if (result.value) {
-          this.usuariosService.eliminarusuario(usuario).subscribe((usuario: Usuario)=>{
-            this.usuariosService.obtenerusuarios().subscribe((usuarios: Usuario[]) => {
-              this.dataSource.data = usuarios;
-            });
-          })
+          this.store.dispatch(eliminarUsuarioState({ usuario }));
           swal.fire('Eliminado!', 'Se borro el registro!', 'success');
         } else if (result.dismiss === swal.DismissReason.cancel) {
           swal.fire('Cancelado', 'Se mantiene el registro!', 'error');

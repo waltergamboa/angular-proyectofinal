@@ -13,28 +13,21 @@ import { selectSesionState } from './autenticacion/state/auth.selectors';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title: string = "angular-proyectofinal";
+  title: string = 'angular-proyectofinal';
   sesion$!: Observable<Sesion>;
 
-  constructor(private router: Router,
-    private authStore: Store<AuthState>){
-  }
+  constructor(private router: Router, private authStore: Store<AuthState>) {}
 
   ngOnInit(): void {
-    this.sesion$ = this.authStore.select(selectSesionState)
-    this.router.navigate(['inicio'])
+    this.sesion$ = this.authStore.select(selectSesionState);
+    this.router.navigate(['inicio']);
   }
 
-  redirigirInicio(){
-    this.router.navigate(['inicio'])
+  redirigirInicio() {
+    this.router.navigate(['inicio']);
   }
 
-  logout(){
-    let sesionLogout: Sesion = {
-      sesionActiva: false
-    }
-
-    //this.sesion.logout(sesionLogout);
+  logout() {
     this.router.navigate(['auth/login']);
   }
 }

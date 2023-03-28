@@ -1,7 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { alumnosCargados, cargarAlumnoState } from '../../state/alumno-state.actions';
-import { selectAlumnosCargados, selectCargandoAlumnos } from '../../state/alumno-state.selectors';
+import {
+  cargarAlumnoState,
+  eliminarAlumnoState,
+} from '../../state/alumno-state.actions';
+import {
+  selectAlumnosCargados,
+  selectCargandoAlumnos,
+} from '../../state/alumno-state.selectors';
 
 import { Alumno } from '../../../models/alumno.model';
 import { AlumnoState } from '../../state/alumno-state.reducer';
@@ -32,13 +38,15 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
     'correo',
     'telefonofijo',
     'telefonocelular',
-    'acciones'
+    'acciones',
   ];
 
-  constructor(private alumnosService: AlumnosService, private router: Router, private sesion: SesionService,
+  constructor(
+    private router: Router,
     private store: Store<AlumnoState>,
     private authStore: Store<AuthState>,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnDestroy(): void {
     this.suscripcion.unsubscribe();
@@ -48,30 +56,18 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource<Alumno>();
 
     this.cargando$ = this.store.select(selectCargandoAlumnos);
-    
     this.store.dispatch(cargarAlumnoState());
-  
-    this.alumnosService.obtenerAlumnos().subscribe((alumnos: Alumno[])=>{
-      this.store.dispatch(alumnosCargados({ alumnos: alumnos}));
-    });
-
-    // this.suscripcion = this.alumnosService
-    //   .obtenerAlumnos()
-    //   .subscribe((alumnos: Alumno[]) => {
-    //     this.dataSource.data = alumnos;
-    //   });
-      
-      this.suscripcion = this.store.select(selectAlumnosCargados).subscribe((alumnos: Alumno[])=>{
+    this.suscripcion = this.store
+      .select(selectAlumnosCargados)
+      .subscribe((alumnos: Alumno[]) => {
         this.dataSource.data = alumnos;
       });
 
-      this.sesion$ = this.authStore.select(selectSesionState); //this.sesion.obtenerSesion();  
-      
-      this.snackBar.open('Alumnos Cargados','', {
-        duration: 2000
-      });
+    this.sesion$ = this.authStore.select(selectSesionState);
 
-
+    this.snackBar.open('Alumnos Cargados', '', {
+      duration: 2000,
+    });
   }
 
   redirigirAgregar() {
@@ -94,11 +90,7 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
       })
       .then((result) => {
         if (result.value) {
-          this.alumnosService.eliminarAlumno(alumno).subscribe((alumno: Alumno)=>{
-            this.alumnosService.obtenerAlumnos().subscribe((alumnos: Alumno[]) => {
-              this.dataSource.data = alumnos;
-            });
-          })
+          this.store.dispatch(eliminarAlumnoState({ alumno }));
           swal.fire('Eliminado!', 'Se borro el registro!', 'success');
         } else if (result.dismiss === swal.DismissReason.cancel) {
           swal.fire('Cancelado', 'Se mantiene el registro!', 'error');

@@ -1,78 +1,72 @@
 import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { Inscripcion } from 'src/app/models/inscripciones.model';
 import { env } from 'src/environment/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InscripcionesService {
-//  private inscripciones: Inscripcion[] = [
-//   {id: '1', nombre: 'nombre1'}
-//];
+  constructor(private http: HttpClient) {}
 
-//private inscripciones$: BehaviorSubject<Inscripcion[]>;
-
-constructor(private http: HttpClient) {
-//  this.inscripciones$ = new BehaviorSubject<Inscripcion[]>(this.inscripciones);
-//  this.inscripciones$.next(this.inscripciones);
- }
-
-// obtenerInscripciones(): Observable<Inscripcion[]> {
-//  return this.inscripciones$.asObservable();
-// }
-
-
-obtenerInscripciones(): Observable<Inscripcion[]>{
-  return this.http.get<Inscripcion[]>(`${env.apiURL}/inscripciones`, {
-    headers: new HttpHeaders({
-      'content-type': 'application/json',
-      'encoding': 'UTF-8'
-    })
-  }).pipe(
-    catchError(this.capturarError)
-  );
-}
-
-agregarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion>{
-  return this.http.post<Inscripcion>(`${env.apiURL}/inscripciones`, inscripcion, {
-    headers: new HttpHeaders({
-      'encoding': 'UTF-8'
-    })
-  }).pipe(
-    catchError(this.capturarError)
-  );
-}
-
-editarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion>{
-  return this.http.put<Inscripcion>(`${env.apiURL}/inscripciones/${inscripcion.id}`, inscripcion, {
-    headers: new HttpHeaders({
-      'encoding': 'UTF-8'
-    })
-  }).pipe(
-    catchError(this.capturarError)
-  );
-}
-
-eliminarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion>{
-  return this.http.delete<Inscripcion>(`${env.apiURL}/inscripciones/${inscripcion.id}`, {
-    headers: new HttpHeaders({
-    })
-  }).pipe(
-    catchError(this.capturarError)
-  );
-}
-
-private capturarError(error: HttpErrorResponse){
-  if(error.error instanceof ErrorEvent){
-    alert(`Hubo un error del lado del cliente: ${error.message}`);
-  }else{
-    alert(`Hubo un error del lado del servidor: ${error.message}`);
+  obtenerInscripciones(): Observable<Inscripcion[]> {
+    return this.http
+      .get<Inscripcion[]>(`${env.apiURL}/inscripciones`, {
+        headers: new HttpHeaders({
+          'content-type': 'application/json',
+          encoding: 'UTF-8',
+        }),
+      })
+      .pipe(catchError(this.capturarError));
   }
 
-  return throwError(() => new Error('Error en el procesamiento de cursos'));
-}
+  agregarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
+    return this.http
+      .post<Inscripcion>(`${env.apiURL}/inscripciones`, inscripcion, {
+        headers: new HttpHeaders({
+          encoding: 'UTF-8',
+        }),
+      })
+      .pipe(catchError(this.capturarError));
+  }
 
+  editarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
+    return this.http
+      .put<Inscripcion>(
+        `${env.apiURL}/inscripciones/${inscripcion.id}`,
+        inscripcion,
+        {
+          headers: new HttpHeaders({
+            encoding: 'UTF-8',
+          }),
+        }
+      )
+      .pipe(catchError(this.capturarError));
+  }
+
+  eliminarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
+    return this.http
+      .delete<Inscripcion>(`${env.apiURL}/inscripciones/${inscripcion.id}`, {
+        headers: new HttpHeaders({}),
+      })
+      .pipe(catchError(this.capturarError));
+  }
+
+  private capturarError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      alert(`Hubo un error del lado del cliente: ${error.message}`);
+    } else {
+      alert(`Hubo un error del lado del servidor: ${error.message}`);
+    }
+
+    return throwError(
+      () => new Error('Error en el procesamiento de inscripciones')
+    );
+  }
 }

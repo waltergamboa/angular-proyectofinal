@@ -1,17 +1,20 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Alumno } from '../../../models/alumno.model';
-import { AlumnosService } from 'src/app/alumnos/services/alumnos.service';
+import { AlumnoState } from '../../../alumnos/state/alumno-state.reducer';
+import { AuthState } from '../../../autenticacion/state/auth.reducer';
 import { Component } from '@angular/core';
 import { Curso } from 'src/app/models/curso.model';
-import { CursosService } from '../../../cursos/services/cursos.service';
+import { CursoState } from '../../../cursos/state/curso-state.reducer';
 import { Inscripcion } from '../../../models/inscripciones.model';
 import { InscripcionState } from '../../state/inscripcion-state.reducer';
-import { InscripcionesService } from '../../services/inscripciones.service';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Sesion } from '../../../models/sesion.model';
 import { Store } from '@ngrx/store';
 import { agregarInscripcionState } from '../../state/inscripcion-state.actions';
+import { selectAlumnosCargados } from '../../../alumnos/state/alumno-state.selectors';
+import { selectCursosCargados } from '../../../cursos/state/curso-state.selectors';
+import { selectSesionState } from '../../../autenticacion/state/auth.selectors';
 
 @Component({
   selector: 'app-inscripcion-agregar',
@@ -20,44 +23,43 @@ import { agregarInscripcionState } from '../../state/inscripcion-state.actions';
 })
 export class InscripcionAgregarComponent {
   formulario!: FormGroup;
+  sesion$!: Observable<Sesion>;
   cursos$!: Observable<Curso[]>;
   alumnos$!: Observable<Alumno[]>;
+  usuario?: string;
 
   constructor(
-    private inscripcionesService: InscripcionesService,
-    private cursosService: CursosService,
-    private alumnosService: AlumnosService,
-    private router: Router,
-    private store: Store<InscripcionState>
+    private store: Store<InscripcionState>,
+    private authStore: Store<AuthState>,
+    private cursoStore: Store<CursoState>,
+    private alumnoStore: Store<AlumnoState>
   ) {}
 
   ngOnInit(): void {
-    this.cursos$ = this.cursosService.obtenerCursos();
-    this.alumnos$ = this.alumnosService.obtenerAlumnos();
-    
+    this.cursos$ = this.cursoStore.select(selectCursosCargados);
+    this.alumnos$ = this.alumnoStore.select(selectAlumnosCargados);
+    this.sesion$ = this.authStore.select(selectSesionState);
+
     this.formulario = new FormGroup({
       curso: new FormControl({}, [Validators.required]),
-      alumno: new FormControl({}, [Validators.required])
+      alumno: new FormControl({}, [Validators.required]),
     });
   }
 
   agregarInscripcion(): void {
+    this.sesion$.subscribe(
+      (sesion: Sesion) => (this.usuario = sesion.usuarioActivo?.nombre)
+    );
+
     let inscripcion: Inscripcion = {
       cursoId: this.formulario.value.curso.id,
       curso: this.formulario.value.curso.nombre,
       alumnoId: this.formulario.value.alumno.id,
       alumno: this.formulario.value.alumno.nombre,
       fecha: new Date(),
-      usuario: "test" // falta sacar de sesion
-     };
+      usuario: this.usuario!,
+    };
 
-     this.store.dispatch(agregarInscripcionState({ inscripcion: inscripcion }));
-
-    // this.inscripcionesService
-    //   .agregarInscripcion(inscripcion)
-    //   .subscribe((inscripcion: Inscripcion) => {
-    //     alert(`${inscripcion.alumno} agregado satisfactoriamente`);
-    //     this.router.navigate(['inscripciones/listar']);
-    //   });
+    this.store.dispatch(agregarInscripcionState({ inscripcion: inscripcion }));
   }
 }

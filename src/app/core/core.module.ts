@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { InicioComponent } from './components/inicio/inicio.component';
-import { MainComponent } from './components/main/main.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgModule } from '@angular/core';
 import { NoEncontradoComponent } from './components/no-encontrado/no-encontrado.component';
@@ -15,7 +14,6 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     NoEncontradoComponent,
     FooterComponent,
     InicioComponent,
-    MainComponent,
     NavbarComponent,
     ToolbarComponent,
   ],
@@ -31,7 +29,6 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     NoEncontradoComponent,
     FooterComponent,
     InicioComponent,
-    MainComponent,
     NavbarComponent,
     ToolbarComponent,
   ],
