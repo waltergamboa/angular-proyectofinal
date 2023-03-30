@@ -14,20 +14,12 @@ export class LoginService {
   constructor(private sesion: SesionService, private http: HttpClient) {}
 
   login(usuario: Usuario): Observable<Sesion> {
-    // let sesion: Sesion = {
-    //   sesionActiva: true,
-    //   usuarioActivo: usuario
-    // }
-
-    // this.sesion.crearSesion(sesion);
-
     return this.http.get<Usuario[]>(`${env.apiURL}/usuarios`).pipe(
       map((usuarios: Usuario[]) => {
         let usuarioValidado = usuarios.find(
           (u: Usuario) =>
             u.usuario === usuario.usuario && u.contrasena === usuario.contrasena
         );
-          
         if (usuarioValidado) {
           const sesion: Sesion = {
             sesionActiva: true,

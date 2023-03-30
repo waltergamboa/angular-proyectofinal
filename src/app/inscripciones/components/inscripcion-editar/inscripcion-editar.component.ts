@@ -83,7 +83,7 @@ export class InscripcionEditarComponent implements OnInit, OnDestroy {
       cursoId: this.formulario.value.curso.id,
       curso: this.curso.nombre,
       alumnoId: this.formulario.value.alumno.id,
-      alumno: this.alumno.nombre,
+      alumno: `${this.alumno.apellido}, ${this.alumno.nombre}`,
       fecha: new Date(),
       usuario: this.usuario!,
     };

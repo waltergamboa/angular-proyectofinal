@@ -33,7 +33,7 @@ export class UsuarioEditarComponent implements OnInit {
         contrasena: new FormControl(parametros.get('contrasena'), [
           Validators.required,
         ]),
-        esAdmin: new FormControl(parametros.get('esAdmin'), [
+        esAdmin: new FormControl(parametros.get('esAdmin') === 'true' ? true : false, [
           Validators.required,
         ]),
         nombre: new FormControl(parametros.get('nombre'), [

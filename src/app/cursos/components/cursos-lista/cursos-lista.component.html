@@ -24,7 +24,7 @@
                     <th mat-header-cell *matHeaderCellDef>Inscripciones abiertas</th>
                     <td mat-cell *matCellDef="let element">
                         <div>
-                            {{ element.inscripcionAbierta }}
+                            {{ element.inscripcionAbierta ? "Si" : "No"}}
                         </div>
                     </td>
                 </ng-container>                

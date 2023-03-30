@@ -50,6 +50,7 @@ export class AlumnosEffects{
             concatMap(({ alumno })=>{
                 return this.alumnos.editarAlumno(alumno).pipe(
                     map((alumno: Alumno) => {
+                        this.router.navigate(['alumnos/listar']);
                         return cargarAlumnoState();
                     })
                 )

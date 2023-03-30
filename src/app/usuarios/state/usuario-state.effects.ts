@@ -50,6 +50,7 @@ export class UsuariosEffects{
             concatMap(({ usuario })=>{
                 return this.usuarios.editarusuario(usuario).pipe(
                     map((usuario: Usuario) => {
+                        this.router.navigate(['usuarios/listar']);                        
                         return cargarUsuarioState();
                     })
                 )
