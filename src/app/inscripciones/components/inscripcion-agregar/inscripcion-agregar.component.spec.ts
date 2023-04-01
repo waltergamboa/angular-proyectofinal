@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InscripcionAgregarComponent } from './inscripcion-agregar.component';
 import { MaterialModule } from '../../../modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 
 describe('InscripcionAgregarComponent', () => {
   let component: InscripcionAgregarComponent;
@@ -16,7 +17,7 @@ describe('InscripcionAgregarComponent', () => {
       imports: [ HttpClientTestingModule,
         ReactiveFormsModule,
         MaterialModule,
-        BrowserAnimationsModule ]
+        BrowserAnimationsModule, StoreModule.forRoot({}) ]
     })  
     .compileComponents();
 

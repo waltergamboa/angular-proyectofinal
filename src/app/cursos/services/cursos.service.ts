@@ -1,9 +1,9 @@
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
 } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
 
 import { Curso } from '../../models/curso.model';
 import { Injectable } from '@angular/core';

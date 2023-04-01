@@ -50,11 +50,9 @@ export class CursoEditarComponent {
           Validators.required,
         ]),
         inscripcionAbierta: new FormControl(curso.inscripcionAbierta),
-        profesor: new FormControl(curso.profesor, [Validators.required]),
+        profesor: new FormControl(this.selected, [Validators.required]),
       });
     });
-
-    this.formulario.get('profesor')!.setValue(this.selected);
   }
 
   editarCurso(): void {

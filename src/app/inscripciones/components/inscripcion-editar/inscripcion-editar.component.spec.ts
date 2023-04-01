@@ -6,6 +6,7 @@ import { InscripcionEditarComponent } from './inscripcion-editar.component';
 import { MaterialModule } from '../../../modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 
 describe('InscripcionEditarComponent', () => {
   let component: InscripcionEditarComponent;
@@ -17,7 +18,7 @@ describe('InscripcionEditarComponent', () => {
       imports: [ HttpClientTestingModule, RouterTestingModule,
         ReactiveFormsModule,
         MaterialModule,
-        BrowserAnimationsModule ] 
+        BrowserAnimationsModule, StoreModule.forRoot({}) ] 
     })
     .compileComponents();
 

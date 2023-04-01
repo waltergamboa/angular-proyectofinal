@@ -1,22 +1,23 @@
+import { AlumnosEffects } from './alumno-state.effects';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Observable } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
-
-import { AlumnoStateEffects } from './alumno-state.effects';
 
 describe('AlumnoStateEffects', () => {
   let actions$: Observable<any>;
-  let effects: AlumnoStateEffects;
+  let effects: AlumnosEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       providers: [
-        AlumnoStateEffects,
+        AlumnosEffects,
         provideMockActions(() => actions$)
       ]
     });
 
-    effects = TestBed.inject(AlumnoStateEffects);
+    effects = TestBed.inject(AlumnosEffects);
   });
 
   it('should be created', () => {

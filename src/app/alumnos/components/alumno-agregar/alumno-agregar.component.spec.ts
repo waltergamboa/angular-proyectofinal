@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from '../../../modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 
 describe('AlumnoAgregarComponent', () => {
   let component: AlumnoAgregarComponent;
@@ -16,7 +17,7 @@ describe('AlumnoAgregarComponent', () => {
       imports: [ HttpClientTestingModule,
         ReactiveFormsModule,
         MaterialModule,
-        BrowserAnimationsModule ]
+        BrowserAnimationsModule, StoreModule.forRoot({}) ]
     })
     .compileComponents();
 

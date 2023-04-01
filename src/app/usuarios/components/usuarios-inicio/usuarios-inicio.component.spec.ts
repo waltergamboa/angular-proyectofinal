@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 import { UsuariosInicioComponent } from './usuarios-inicio.component';
 
 describe('UsuariosInicioComponent', () => {
@@ -8,7 +10,8 @@ describe('UsuariosInicioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UsuariosInicioComponent ]
+      declarations: [ UsuariosInicioComponent ],
+      imports: [ StoreModule.forRoot({}), RouterTestingModule ]
     })
     .compileComponents();
 

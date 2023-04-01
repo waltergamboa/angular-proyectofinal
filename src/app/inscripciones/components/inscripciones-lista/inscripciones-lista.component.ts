@@ -33,7 +33,7 @@ export class InscripcionesListaComponent {
   cargando$!: Observable<Boolean>;
   dataSource!: MatTableDataSource<Inscripcion>;
   columnas: string[] = ['alumno', 'curso', 'usuario', 'fecha', 'acciones'];
-
+  
   constructor(
     private router: Router,
     private authStore: Store<AuthState>,
@@ -47,6 +47,7 @@ export class InscripcionesListaComponent {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Inscripcion>();
+    
 
     this.cargando$ = this.store.select(selectCargandoInscripciones);
     this.store.dispatch(cargarInscripcionState());

@@ -1,27 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { usuarioEditarComponent } from './usuario-editar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from '../../../modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
+import { UsuarioEditarComponent } from './usuario-editar.component';
 
 describe('usuarioEditarComponent', () => {
-  let component: usuarioEditarComponent;
-  let fixture: ComponentFixture<usuarioEditarComponent>;
+  let component: UsuarioEditarComponent;
+  let fixture: ComponentFixture<UsuarioEditarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ usuarioEditarComponent ],
+      declarations: [ UsuarioEditarComponent ],
       imports: [ HttpClientTestingModule, RouterTestingModule,
         ReactiveFormsModule,
         MaterialModule,
-        BrowserAnimationsModule ]
+        BrowserAnimationsModule, StoreModule.forRoot({}) ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(usuarioEditarComponent);
+    fixture = TestBed.createComponent(UsuarioEditarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

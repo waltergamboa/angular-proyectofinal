@@ -3,7 +3,7 @@
         <form [formGroup]="formulario" (ngSubmit)="editarInscripcion()">
             <mat-form-field class="col-md-12">
                 <mat-label>Alumno</mat-label>
-                <mat-select formControlName="alumno" [(value)]="alumnoSelected" [disabled]="true">
+                <mat-select formControlName="alumno" [(value)]="alumnoSelected">
                     <mat-option *ngFor="let alumno of alumnos$ | async" [value]="alumno.id">
                         {{ alumno.apellido}}, {{ alumno.nombre }}
                     </mat-option>

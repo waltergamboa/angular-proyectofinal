@@ -14,7 +14,7 @@ import { editarAlumnoState } from '../../state/alumno-state.actions';
 })
 export class AlumnoEditarComponent implements OnInit {
   formulario!: FormGroup;
-
+ 
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<AlumnoState>

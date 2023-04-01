@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CursoAgregarComponent } from './curso-agregar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from '../../../shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
 describe('CursoAgregarComponent', () => {
   let component: CursoAgregarComponent;
@@ -12,7 +13,7 @@ describe('CursoAgregarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ CursoAgregarComponent ],
-      imports: [ HttpClientTestingModule, SharedModule, BrowserAnimationsModule ]
+      imports: [ HttpClientTestingModule, SharedModule, BrowserAnimationsModule, StoreModule.forRoot({}) ]
     })
     .compileComponents();
 

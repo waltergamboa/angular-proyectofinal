@@ -34,8 +34,8 @@ export class InscripcionEditarComponent implements OnInit, OnDestroy {
     private store: Store<InscripcionState>
   ) {}
   ngOnDestroy(): void {
-    this.suscripcionCurso.unsubscribe();
-    this.suscripcionAlumno.unsubscribe();
+   // this.suscripcionCurso.unsubscribe();
+   // this.suscripcionAlumno.unsubscribe();
   }
 
   ngOnInit(): void {

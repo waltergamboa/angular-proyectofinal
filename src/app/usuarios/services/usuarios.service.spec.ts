@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { usuariosService } from './usuarios.service';
 import { TestBed } from '@angular/core/testing';
+import { UsuariosService } from './usuarios.service';
 
 describe('usuariosService', () => {
   let service: UsuariosService;
@@ -10,7 +10,7 @@ describe('usuariosService', () => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ]
     });
-    service = TestBed.inject(usuariosService);
+    service = TestBed.inject(UsuariosService);
   });
 
   it('should be created', () => {

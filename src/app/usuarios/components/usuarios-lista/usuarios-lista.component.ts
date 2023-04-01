@@ -14,11 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Sesion } from 'src/app/models/sesion.model';
-import { SesionService } from 'src/app/core/services/sesion.service';
 import { Store } from '@ngrx/store';
 import { Usuario } from '../../../models/usuario.model';
 import { UsuarioState } from '../../state/usuario-state.reducer';
-import { UsuariosService } from '../../services/usuarios.service';
 import { selectSesionState } from '../../../autenticacion/state/auth.selectors';
 import swal from 'sweetalert2';
 

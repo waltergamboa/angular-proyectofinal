@@ -6,6 +6,7 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from './shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 import { ToolbarComponent } from './core/components/toolbar/toolbar.component';
 
@@ -22,7 +23,8 @@ describe('AppComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         MaterialModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        StoreModule.forRoot({})
       ]
     }).compileComponents();
   });

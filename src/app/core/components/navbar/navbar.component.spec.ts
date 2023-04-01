@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarComponent } from './navbar.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -10,7 +11,7 @@ describe('NavbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ NavbarComponent ],
-      imports: [ SharedModule ] 
+      imports: [ SharedModule, StoreModule.forRoot({}) ] 
     })
     .compileComponents();
 
