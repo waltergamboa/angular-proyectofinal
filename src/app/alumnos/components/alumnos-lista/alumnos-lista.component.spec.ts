@@ -26,7 +26,7 @@
 //     component = fixture.componentInstance;
 //     fixture.detectChanges();
 //   });
-// //should create
+
 //   it('El componente se crea correctamente', () => {
 //     expect(component).toBeTruthy();
 //   });

@@ -38,7 +38,7 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
     'correo',
     'telefonofijo',
     'telefonocelular',
-    'acciones',
+    'acciones'
   ];
 
   constructor(
@@ -54,7 +54,7 @@ export class AlumnosListaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Alumno>();
-
+    
     this.cargando$ = this.store.select(selectCargandoAlumnos);
     this.store.dispatch(cargarAlumnoState());
     this.suscripcion = this.store
