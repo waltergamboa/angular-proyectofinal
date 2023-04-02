@@ -50,9 +50,7 @@ export class InscripcionAgregarComponent {
     this.sesion$.subscribe(
       (sesion: Sesion) => (this.usuario = sesion.usuarioActivo?.nombre)
     );
-
-    console.log(this.formulario.value.alumno);
-
+    
     let inscripcion: Inscripcion = {
       cursoId: this.formulario.value.curso.id,
       curso: this.formulario.value.curso.nombre,
